@@ -27,3 +27,4 @@ build/
 # Optional: If you have a local copy of your Firebase service account key file,
 # ensure it is ignored to prevent accidental commits.
 firebase-service-account.json
+firebase-service-account2.json

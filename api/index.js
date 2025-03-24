@@ -24,18 +24,57 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/api/registerUser', async (req, res) => {
-    const { email, password } = req.body;
-    const user = await admin.auth().createUser({
-        email,
-        password
-    });
-    await admin.auth().setCustomUserClaims(user.uid, {
-        role: 'employee',
-        companyId: 'Mayan Solutions'
-    });
-    res.json({ message: 'User registered successfully', user });
+import axios from 'axios'; // Importing axios
+
+app.get('/api/departments', async (req, res) => {
+
 });
+
+
+app.post('/api/registerUser', async (req, res) => {
+    try {
+        const { company, role, uid } = req.body;
+        await admin.auth().setCustomUserClaims(uid, {
+            role: role,
+            company: company
+        }).then(() => {
+            console.log('User registered successfully');
+        }).catch((error) => {
+            console.error('Error registering user:', error);
+        });
+        res.status(200).json({ message: 'User registered successfully' });
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ message: 'Error' });
+    }
+});
+
+
+app.get('/api/user/:token', async (req, res) => {
+    const { token } = req.params;
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(token);
+        const userRecord = await admin.auth().getUser(decodedToken.uid);
+        res.json(userRecord);
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        res.status(500).json({ message: 'Error fetching user data' });
+    }
+});
+
+
+app.get('/api/user/:uid', async (req, res) => {
+    const { uid } = req.params;
+    try {
+        const userRecord = await admin.auth().getUser(uid);
+        res.json(userRecord);
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        res.status(500).json({ message: 'Error fetching user data' });
+    }
+});
+
+
 
 // Example API route
 app.get('/api', (req, res) => {
@@ -46,3 +85,5 @@ app.get('/api', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+
