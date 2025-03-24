@@ -54,20 +54,6 @@ app.get('/api/user/:token', async (req, res) => {
     }
 });
 
-
-app.get('/api/user/:uid', async (req, res) => {
-    const { uid } = req.params;
-    try {
-        const userRecord = await admin.auth().getUser(uid);
-        res.json(userRecord);
-    } catch (error) {
-        console.error('Error fetching user data:', error);
-        res.status(500).json({ message: 'Error fetching user data' });
-    }
-});
-
-
-
 // Example API route
 app.get('/api', (req, res) => {
     res.json({ message: "Message from the API!" });
