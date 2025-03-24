@@ -23,14 +23,6 @@ app.get('/', (req, res) => {
     res.send('Hello, Express!');
 });
 
-
-import axios from 'axios'; // Importing axios
-
-app.get('/api/departments', async (req, res) => {
-
-});
-
-
 app.post('/api/registerUser', async (req, res) => {
     try {
         const { company, role, uid } = req.body;
