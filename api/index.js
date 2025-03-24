@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/registerUser', async (req, res) => {
+app.post('/api/registerUser', async (req, res) => {
     const { email, password } = req.body;
     const user = await admin.auth().createUser({
         email,
